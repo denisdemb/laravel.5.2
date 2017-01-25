@@ -8,45 +8,13 @@ use App\Model\ShopImages;
 use SleepingOwl\Admin\Model\ModelConfiguration;
 
 AdminSection::registerModel(ShopGoods::class, function (ModelConfiguration $model) {
-//    $model->setTitle('Товары');
+    $model->setTitle('Товары');
 
 
     // Display
     $model->onDisplay(function () {
-    //    $display = AdminDisplay::table()->with('categories');
-//        $display->setOrder([[1, 'desc']]);
-
-//        $dis = AdminDisplay::table()->with('shopimages');
-
-
-
-
 
         $display = AdminDisplay::table()->setHtmlAttribute('class', 'table-primary');
-
-//        $dd = new ShopGoods;
-//
-//        $dd = $dd->shopimages1();
-
-
-
-//        dd(count($dd));
-
-
-
-
-//        foreach ($dd as $d):
-//
-//           // $dddd[] = $d->path.',';
-//
-//            $dddd[] =  "AdminColumn::image('".$d->path."')->setLabel('Картинки')->setWidth('150px'),";
-//
-//        endforeach;
-
-       // $dddd1[] = explode(',', $dddd);
-
-       // echo $dddd;
-
 
         $display->setColumns([
 
@@ -67,7 +35,24 @@ AdminSection::registerModel(ShopGoods::class, function (ModelConfiguration $mode
 //            AdminColumn::custom()->setLabel('Published')->setCallback(function (ShopGoods $model) {
 //                return $model->published ? '<i class="fa fa-check"></i>' : '<i class="fa fa-minus"></i>';
 //            })->setWidth('50px')->setHtmlAttribute('class', 'text-center')->setOrderable(false),
-            AdminColumn::image('shopimages.path')->setLabel('Картинки')->setWidth('150px'),
+
+            AdminColumn::custom()->setLabel('Картинки')->setCallback(function (ShopGoods $model) {
+                $pathImages = $model->shopimages->path;
+                $imagesPaths = explode(',',$pathImages);
+
+                $images = [];
+
+                foreach ($imagesPaths as $value ):
+                    $images[] = '<img src="../'.$value.'">';
+                endforeach;
+
+                $images = implode ( '', $images );
+
+                return $images;
+
+// определил свой стиль class='images' sleepingowl/default/css/admin-app.css
+            })->setWidth('250px')->setHtmlAttribute('class', 'images')->setOrderable(false),
+
 
         ]);
 
