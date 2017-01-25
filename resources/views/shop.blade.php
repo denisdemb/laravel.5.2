@@ -16,8 +16,8 @@
                     <div class="col-md-3 shop_box">
                         <a href="/shop/{{ $item->url }}/{{ $item->id }}">
                             <div class="shop_desc">
-                            @if(!empty($item->image))
-                                <img src="../{{ $item->image }}" class="img-responsive" alt=""/>
+                            @if(!empty($item->path))
+                                <img src="../{{ preg_replace('/\,.*/','',$item->path) }}" class="img-responsive" alt=""/>
                             @else
                                 <img src="../images/nophoto.jpg" class="img-responsive" alt=""/>
                             @endif

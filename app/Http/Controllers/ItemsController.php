@@ -17,20 +17,11 @@ class ItemsController extends Controller
 //  вывод товаров магазина
     public function index()
     {
-        $items =  new ShopGoods;
+        $items = new ShopGoods;
         $catsItems = $items->catsItems();
-
-//        dd($catsItems);
-
-//    $parameters = $item::parameters($items->id);//получаем все параметры
-//    dd($parameters);
-//    $images = explode(';',$parameters[0]->preview); //ссылки на картинки передаем отдельным массивом
-//    $images = '';
 
         return view('/shop', [
             'items' => $catsItems,
-//            'parameters' => $parameters,
-//            'images' => $images
         ]);
     }
 
@@ -52,17 +43,18 @@ class ItemsController extends Controller
 // вывод товара по его id
     public function getId($category, $id)
     {
-
-        $item = Items::find($id);
-
         $categories = new ShopCategories;
         $categoriy = $categories->where('url', $category)->first();
 
-        $items = new ShopGoods;
-        $catItems = $items->catId($categoriy->id);
+        $itemsCat = new ShopGoods;
+        $catItems = $itemsCat->catId($categoriy->id);
+        $items = $itemsCat->itemId($id);
+
+//        dd($items,$catItems);
+
 
         return view('/shopitem', [
-            'item'      => $item,
+            'items'     => $items,
             'catitems'  => $catItems,
             'categoriy' => $categoriy->title
 

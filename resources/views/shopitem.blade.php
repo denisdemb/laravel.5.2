@@ -14,12 +14,24 @@
                     <div class="col-md-9 single_left">
                         <div class="single_image">
                             <ul id="etalage">
-                                @foreach($catitems as $catitem)
-                                <li>
-                                    <img class="etalage_thumb_image" src="/{{ $catitem->image }}" />
-                                    <img class="etalage_source_image" src="/{{ $catitem->image }}" />
-                                </li>
-                                @endforeach
+                                <?php
+                                foreach($items as $item):
+
+                                    $images = explode(',',$item->path);
+
+                                    foreach($images as $image):
+                                ?>
+
+                                        <li>
+                                            <img class="etalage_thumb_image" src="/{{ $image }}" />
+                                            <img class="etalage_source_image" src="/{{ $image }}" />
+                                        </li>
+
+                                <?php
+                                    endforeach;
+
+                                endforeach;
+                                ?>
                             </ul>
                         </div>
                         <!-- end product_slider -->
@@ -97,23 +109,25 @@
                 </div>
                 <div class="row">
                     <h4 class="m_11">Похожие товары в категории: {{ $categoriy }}</h4>
-                    @foreach($catitems as $catitem)
-                        <div class="col-md-4 product1">
-                            <img src="/{{ $catitem->image }}" class="img-responsive" alt=""/>
-                            <div class="shop_desc">
-                                {{--<a href="/shop/{{ $catitem->url }}/{{$catitem->id}}">--}}
-                                    <h3><a href="/shop/{{ $catitem->url }}/{{$catitem->id}}">{{ $catitem->title }}</a></h3>
-                                    <p>{{ $catitem->description }} </p>
-                                    <span class="reducedfrom">{{ $catitem->pricesale}}</span>
-                                    <span class="actual">{{ $catitem->price}}</span><br>
-                                    <ul class="buttons">
-                                        <li class="cart"><a href="/shop/basket">В корзину</a></li>
-                                        <li class="shop_btn"><a href="/shop/{{ $catitem->url }}/{{$catitem->id}}">Подробнее..</a></li>
-                                        <div class="clear"> </div>
-                                    </ul>
-                                {{--</a>--}}
+                    @foreach($catitems as $key => $catitem)
+                        @if($item->id != $catitem->id)
+                            <div class="col-md-4 product1">
+                                <img src="/{{  preg_replace('/\,.*/','',$catitem->path)  }}" class="img-responsive" alt=""/>
+                                <div class="shop_desc">
+                                    {{--<a href="/shop/{{ $catitem->url }}/{{$catitem->id}}">--}}
+                                        <h3><a href="/shop/{{ $catitem->url }}/{{$catitem->id}}">{{ $catitem->title }}</a></h3>
+                                        <p>{!! $catitem->description !!} </p>
+                                        <span class="reducedfrom">{{ $catitem->pricesale}}</span>
+                                        <span class="actual">{{ $catitem->price}}</span><br>
+                                        <ul class="buttons">
+                                            <li class="cart"><a href="/shop/basket">В корзину</a></li>
+                                            <li class="shop_btn"><a href="/shop/{{ $catitem->url }}/{{$catitem->id}}">Подробнее..</a></li>
+                                            <div class="clear"> </div>
+                                        </ul>
+                                    {{--</a>--}}
+                                </div>
                             </div>
-                        </div>
+                        @endif
                     @endforeach
                 </div>
             </div>
