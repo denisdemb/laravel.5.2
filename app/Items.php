@@ -14,6 +14,7 @@ class Items extends Model
     public static function parameters($id)
     {
 
+        
 //        $ddd = DB::table('items')->where('items.id','=',$id)
 //            ->join('parameters_values','parameters_values.items_id','=','items.id')
 //            ->join('parameters','parameters_values.parameters_id','=','parameters.id')
